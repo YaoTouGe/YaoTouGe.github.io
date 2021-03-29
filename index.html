@@ -19,9 +19,9 @@
 <p>我们如果将float32在[0, 1]区间上的精度上可视化，如下图，蓝色的刻度表示每次给底数加上1 &lt;&lt; 20后，实际所表示的数值。（模拟每次给底数加1，但那样刻度数量太多，间距也不够明显）：</p>
 <p><img src="https://bl3301files.storage.live.com/y4m7wDnXg-sMAuLU7m1Etsk_4KVd2SmG-FuChEdXngpzChXXlRl4edNKMzvog58jev1brOp5LoHbmQF9U52fs7y4hWLtJPgIZj21oJAVlOEtHrUHo8Dmk30MKqMcxJkmHb98-ah41G0fLgpub13OnLc7ZB3nkSaQf9V61MRaXdOlm5ROYPbiEOs0HKfkbShmW_L?width=1080&amp;height=288&amp;cropmode=none" alt="float precision"></p>
 <p>越接近0，数精度越高，蓝色刻度越密集，越接近1，精度越低，刻度间隔越大。</p>
-<p>对应的，z-buffer值与word z的函数曲线上，将精度可视化，橙色十字表示z-buffer中的精度分布，蓝色十字表示每个橙色十字对应到word z的值：</p>
+<p>对应的，z-buffer值与word z的函数曲线上，将精度可视化，橙色十字表示z-buffer中的精度分布，绿色十字表示每个橙色十字对应到word z的值：</p>
 <p><img src="https://bl3301files.storage.live.com/y4mb3eevO7zVZdoeJ_ryqJmk_nzeADWPzog1KuKaqYdsX49VLenUyFG83EmEnfEi8rY_Cbu-wulbE8f5w7GRWRQoblIQAfJ3-7_MOtp3WRUyfQWiM-4Ke_lMwb3lLemxMqhGzMNhraWVvqPO1IE36VveTa8cFu1y_PrV5oB1YiJv4m9mbBt33EdfSqp4ycw-fuq?width=1440&amp;height=720&amp;cropmode=none" alt="depth buffer precision"></p>
-<p>这下更明显了，函数曲线本身的特点就是，word z接近near的部分占用了[0, 1]]区间的一大半值域，再加上浮点数的精度分布在0附近更高，二者互相增益，导致z-buffer的精度在世界空间的分布更集中于0附近，极度不均匀。</p>
+<p>这下更明显了，函数曲线本身的特点就是，word z接近near的部分占用了[0, 1]]区间的一大半值域，再加上浮点数的精度分布在0附近更高，二者互相增益，导致z-buffer的精度在世界空间的分布更集中于near附近，极度不均匀。</p>
 <p>实验做到这里，不得不佩服前人的智慧了，既然这两个效果互相增益，导致精度更不均匀，那如果能让二者互相抵消，是不是能够很大程度的缓解这个问题呢？于是有人想办法将z-buffer的值反过来，0对应far，1对应near，这样浮点的精度分布和透视投影的z值函数曲线的分布就能互相抵消了。这里对projection矩阵做了修改，左乘一个转换矩阵：</p>
 <p>$T M_p P_w=\begin{bmatrix} 1&amp;0&amp;0&amp;0 \\ 0&amp;1&amp;0&amp;0 \\ 0&amp;0&amp;-1&amp;1 \\ 0&amp;0&amp;0&amp;1 \end{bmatrix} \begin{bmatrix} s &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; s &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; \frac{f}{f-n} &amp; -\frac{fn}{f-n} \\ 0 &amp; 0 &amp; 1 &amp; 0 \end{bmatrix} \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix}$</p>
 <p>$d=-\frac{n}{f-n}+\frac{fn}{f-n}*\frac{1}{z}$</p>
