@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>yaotouge's place</title><link>http://yaotouge.github.io/</link><description>Recent content on yaotouge's place</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 09 Aug 2021 00:21:28 +0000</lastBuildDate><atom:link href="http://yaotouge.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>GPU Flow-Control Idioms 笔记</title><link>http://yaotouge.github.io/posts/gpu-branch-strategies/</link><pubDate>Mon, 09 Aug 2021 00:21:28 +0000</pubDate><guid>http://yaotouge.github.io/posts/gpu-branch-strategies/</guid><description>一直只知道shader中用分支会有额外开销，但总想搞清楚，GPU执行分支的时候发生了什么。这点不同架构，不同厂商的GPU底层细节可能都不同，他们也不会公开太多消息。我找到GPU Gems2的一篇老文章学习（貌似是好多年前的，里面还在讲GeForce 6系列显卡，有些内容可能比较过时，不过基本原理应该还是有参考价值的），做笔记记录一下。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GPU on yaotouge's place</title><link>http://yaotouge.github.io/tags/gpu/</link><description>Recent content in GPU on yaotouge's place</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 09 Aug 2021 00:21:28 +0000</lastBuildDate><atom:link href="http://yaotouge.github.io/tags/gpu/index.xml" rel="self" type="application/rss+xml"/><item><title>GPU Flow-Control Idioms 笔记</title><link>http://yaotouge.github.io/posts/gpu-branch-strategies/</link><pubDate>Mon, 09 Aug 2021 00:21:28 +0000</pubDate><guid>http://yaotouge.github.io/posts/gpu-branch-strategies/</guid><description>一直只知道shader中用分支会有额外开销，但总想搞清楚，GPU执行分支的时候发生了什么。这点不同架构，不同厂商的GPU底层细节可能都不同，他们也不会公开太多消息。我找到GPU Gems2的一篇老文章学习（貌似是好多年前的，里面还在讲GeForce 6系列显卡，有些内容可能比较过时，不过基本原理应该还是有参考价值的），做笔记记录一下。
 CPU和GPU的分支模型 首先看看CPU分支的性能开销，CPU的指令流水线通常比较长（能达到10到20个时钟周期），为了让效率最大化，理想情况是不希望流水线被打断的。所以CPU的分支预测很重要。如果没有分支预测，在条件跳转（condition jump）执行完毕之前，CPU必须等待，流水线只能空着。为了改善这个问题，CPU会对分支进行预测，根据预测结果提前让指令进入流水线执行，如果预测失败，也不过是把提前执行的指令中断，重新让正确的指令进入流水线。
 在GPU上，最新的GPU（那个年代还是GeForce 6xxx系列）也有类似的分支指令，但性能与CPU有些许不同。更老的GPU则没有原生的分支指令，而是用其他方式模拟分支的行为。并行架构中最常见的机制是SIMD（单指令多数据）和MIMD（多指令多数据）。SIMD架构中的所有处理单元在同一时刻执行相同的指令。MIMD中不同的处理器则可以同时执行不同的指令。GPU目前用三种方式来实现分支：MIMD分支，SIMD分支和条件码。
 MIMD
@@ -27,25 +27,4 @@ Z-Cull 如果在预计算的基础上更进一步，我们可以采用另一个G
 Expensive off-chip memory access 移动GPU访问 off-chip 内存（移动GPU没有显存，或者内存当做显存用？）比访问on-chip内存的功耗要高一个数量级的功耗，甚至占用了一半以上的GPU总功耗。
 目前的GPU节能技术概况： memory latency Register file optimization 没看太懂，提到了 register file cache，通过cache减少对 main register file的访问，然后通过优化GPU thread的调度，使得active thread数量减少，进一步减少register file的大小。
 Prefetch 减少cache miss造成的 memory latency，与CPU的prefetch算法不同，mobile gpu也是以节能为主的。CPU的prefetch算法通常性能很好，但是取到很多不必要的数据，所以能耗表现差。
-Decouple Access/Execute 把memory access和执行计算两个步骤解耦，prefetch可以提前很多，这样cache miss和计算可以overlap，不造成stall，虽然也是对prefetch的优化，但其它prefetch的地址是预测的，这种方式的prefetch地址却是计算得到的，因此更精确，造成的浪费更少。后面没看太懂。。。反正因为限制很多，实际效果没有那么好，好像并没有商业CPU采用，但好像也没说GPU上应用没有。</description></item><item><title>reversed-z</title><link>http://yaotouge.github.io/posts/reversed-z/</link><pubDate>Fri, 19 Mar 2021 18:13:45 +0000</pubDate><guid>http://yaotouge.github.io/posts/reversed-z/</guid><description>之前说到z-fighting，我只能想到两个解决方法，一个是把近平面推远，调整z值在视锥里的分布。另一种是用cascade的方式，多级视锥来把z的精度匀开，其实也是变相把近平面推远了，只不过有好几个近平面而已。
-最近学习到的一个技术，reversed-z，感觉是一种更行之有效的办法。通过对投影矩阵的调整，很巧妙的把深度缓冲中的z在世界空间中的分布，和浮点数的精度分布结合起来，让深度的精度更合理。
-传统的透视投影形如：
-$$M_p P_w=\begin{bmatrix} s &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 \\ 0 &amp;amp; s &amp;amp; 0 &amp;amp; 0 \\ 0 &amp;amp; 0 &amp;amp; \frac{f}{f-n} &amp;amp; -\frac{fn}{f-n} \\ 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0 \end{bmatrix} \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix}$$
-$$d=\frac{f}{f-n}-\frac{fn}{f-n} * \frac{1}{z}$$
-d为乘以投影矩阵后，再经过透视除法，写入深度缓冲的值，0对应near，1对应far。
-d是一个浮点数，浮点数有一个让人比较头疼的特性，就是其所表述的值越大，精度就越低。因为底数的bits只表示小数，大数值完全是靠着指数撑起来的，而且指数可以为负，因此0附近的精度尤其高。
-我们如果将float32在[0, 1]区间上的精度上可视化，如下图，蓝色的刻度表示每次给底数加上1 &amp;laquo; 20后，实际所表示的数值。（模拟每次给底数加1，但那样刻度数量太多，间距也不够明显）：
-越接近0，数精度越高，蓝色刻度越密集，越接近1，精度越低，刻度间隔越大。
-对应的，z-buffer值与word z的函数曲线上，将精度可视化，橙色十字表示z-buffer中的精度分布，绿色十字表示每个橙色十字对应到word z的值：
-这下更明显了，函数曲线本身的特点就是，word z接近near的部分占用了[0, 1]]区间的一大半值域，再加上浮点数的精度分布在0附近更高，二者互相增益，导致z-buffer的精度在世界空间的分布更集中于near附近，极度不均匀。
-实验做到这里，不得不佩服前人的智慧了，既然这两个效果互相增益，导致精度更不均匀，那如果能让二者互相抵消，是不是能够很大程度的缓解这个问题呢？于是有人想办法将z-buffer的值反过来，0对应far，1对应near，这样浮点的精度分布和透视投影的z值函数曲线的分布就能互相抵消了。这里对projection矩阵做了修改，左乘一个转换矩阵：
-$$T M_p P_w=\begin{bmatrix} 1&amp;amp;0&amp;amp;0&amp;amp;0 \\ 0&amp;amp;1&amp;amp;0&amp;amp;0 \\ 0&amp;amp;0&amp;amp;-1&amp;amp;1 \\ 0&amp;amp;0&amp;amp;0&amp;amp;1 \end{bmatrix} \begin{bmatrix} s &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 \\ 0 &amp;amp; s &amp;amp; 0 &amp;amp; 0 \\ 0 &amp;amp; 0 &amp;amp; \frac{f}{f-n} &amp;amp; -\frac{fn}{f-n} \\ 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0 \end{bmatrix} \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix}$$</description></item><item><title>测试mark down图床功能</title><link>http://yaotouge.github.io/posts/first/</link><pubDate>Wed, 10 Mar 2021 13:35:47 +0000</pubDate><guid>http://yaotouge.github.io/posts/first/</guid><description>终于开始在pages服务上写文章了，学了一下hexo的用法，挑了一个对眼的主题，现在就差Mark Down图片怎么搞了。 付费方案有不少，什么腾讯云、阿里云、网易云的各种对象存储，有的还有不少免费空间，但是都需要自己注册一个备案域名。我只是想在Pages上写写文章而已，于是作罢。
-后来看到有两个免费方案，微博和B站的，就是不知道稳定性怎么样，要是用着用着挂了，那真是GG了，不管怎么样，先测测看。
-微博的：
-B站的
-目前看着微博的似乎靠谱一点，需要登录自己账号，B站的都不用登录，也不知道怎么办到的。希望能多用一段时间吧，这就涉及到我要随时把自己的图片给备份好了，打算先归档，放到OneDrive里面。
-写到这里，突然想到，OneDrive不是也有文件共享链接的功能吗！何不尝试一下用OneDrive做图床呢！如下：
-实测了一下，确实可以，不过有两步，把文件放进OneDrive之后，先分享得到一个链接，但是这个链接并不能直接使用。于是还需要第二步，打开OneDrive的分享链接，选择顶部的嵌入，这样就可以生成一个能直接访问的图片链接，直接插入Mark Down即可。两步也不算很麻烦，但是OneDrive的网页版需要梯子才能打开，所以还是有些不便。就数据安全性，绝对是完胜上面的B站和微博了，不担心突然就跪了。
-既然OneDrive可以，那百度云盘可不可以呢（邪恶笑）。尝试了一下百度云的分享链接：
-百度云盘就一言难尽了，现在它现在只支持分享私密链接，也就是必须用提取码才能打开，我尝试了一下，使用提取码后，直接复制下载的链接，短时间内是可以使用的，过了一会儿就不行，看来是一个临时链接。
-总结起来就是，免费的只有OneDrive能可靠使用，但得有梯子才行。微博和B站的能用，就是不知道长期稳定性如何，万一挂了，除非自己全部有备份，不然就GG。百度盘基本不能用。</description></item></channel></rss>
+Decouple Access/Execute 把memory access和执行计算两个步骤解耦，prefetch可以提前很多，这样cache miss和计算可以overlap，不造成stall，虽然也是对prefetch的优化，但其它prefetch的地址是预测的，这种方式的prefetch地址却是计算得到的，因此更精确，造成的浪费更少。后面没看太懂。。。反正因为限制很多，实际效果没有那么好，好像并没有商业CPU采用，但好像也没说GPU上应用没有。</description></item></channel></rss>
