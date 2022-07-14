@@ -2,3 +2,23 @@ baseURL = "http://yaotouge.github.io"
 languageCode = "en-us"
 title = "yaotouge's place"
 theme = "hugo-xmin"
+
+[permalinks]
+    post = "/post/:year/:month/:day/:slug/"
+    
+[[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 4
+[[menu.main]]
+    name = "Tags"
+    url = "/tags/"
+    weight = 3
+[[menu.main]]
+    name = "Posts"
+    url = "/posts/"
+    weight = 2
+[[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
