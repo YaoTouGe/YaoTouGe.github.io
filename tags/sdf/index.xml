@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SDF on yaotouge's place</title><link>http://yaotouge.github.io/tags/sdf/</link><description>Recent content in SDF on yaotouge's place</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 31 Jul 2022 11:01:47 +0000</lastBuildDate><atom:link href="http://yaotouge.github.io/tags/sdf/index.xml" rel="self" type="application/rss+xml"/><item><title>理解 Inigo Quilez的 SDF 函数</title><link>http://yaotouge.github.io/posts/sdf-functions/</link><pubDate>Sun, 31 Jul 2022 11:01:47 +0000</pubDate><guid>http://yaotouge.github.io/posts/sdf-functions/</guid><description>Inigo Quilez 大佬的博客中有一篇常用 SDF 函数的合集，仔细阅读下来感觉充满了机智，所以打算写下自己的一些理解。
+Box 长方体是执念比较深的一个，因为曾经面试的时候没有答出来，直接被鄙视。。。可能这也是为什么我要写这篇文章的原因之一。
+float sdBox( vec3 p, vec3 b ) { vec3 q = abs(p) - b; return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0); } 机智的点在于，box是一个中心对称的几何体，对于中心在原点的box，我们可以利用对称将原本八个不同的象限缩减为一个，大大简化计算（在其他的SDF中也经常利用对称性）。
+b是box的extent，也就是size的一半。第一行 abs(p) - b 把八个象限的不同情况转化为只考虑第一象限中p 与八分之一box的相对位置。我们可以想象不论p在哪个象限，其SDF的计算结果只和坐标的abs有关，与符号无关。
+第二行则是把在box内和在box外的距离计算合并：
+如果p在box内,q.xyz都是负，SDF的结果应该是其与box几个面最近距离取负，即 max(q.xyz)，但如果p在box外（max(q.xyz)不为负），这一项应该为0被忽略，所以应该为 min(max(q.xyz), 0)。 如果p在box外，对SDF产生贡献的只有q.xyz中大于0的分量，此处可以用2D情况想象以下。 所以计算为 length(max(q, 0))，若p在box内，这一项本身就是0，很符合我们的要求。 把两项相加就是最终结果：length(max(q, 0))+min(max(q.xyz),0)。
+之前面试被问的时候，我第一反应是拿if else把八个象限全写一遍，最后还被绕晕了没写出来，这里只用2行代码就搞定，只能说智力被碾压。。。
+在基本的box上加以变化，还能衍生出其他形状。
+Round Box：
+float sdRoundBox( vec3 p, vec3 b, float r ) { vec3 q = abs(p) - b; return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0) - r; } 唯一的变化是return的时候减r，第一反应是：这就完啦？？？细想确实如此，给box加上半径为r的圆角，如果p在box外，原本距离为d，现在距离是d-r。如果在box内，原本距离是d，现在是d + -r，都是d-r。</description></item></channel></rss>
