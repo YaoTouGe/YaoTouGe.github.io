@@ -80,3 +80,76 @@ $$p=abs(p)-b,q=abs(p)-e$$
 $$q_1=(p.x,q.y,q.z),q_2=(q.x,p.y,q.z),q_3=(q.x,q.y,p.z)$$
 
 现在几乎和代码能对应上了，唯一的不同点在于第二行代码 q=abs(p+e)-e，这里的区别在于iq的代码中，e增大框架向内膨胀，而我们推导的是同时向内外膨胀，所以对p加上了额外的偏移e。
+
+### Torus
+
+```C
+float sdTorus( vec3 p, vec2 t )
+{
+  vec2 q = vec2(length(p.xz)-t.x,p.y);
+  return length(q)-t.y;
+}
+```
+
+参数t表示半径和粗细，代码所表示的是一个在xz平面上的甜甜圈，想象一个平行于y轴经过原点的平面，与甜甜圈相截得到无数个小圆，我们要求p与小圆之间的最短距离。第一行代码将p映射到对应的截平面上以小圆的圆心为原点的二维平面上，第二行就是求点到圆的距离了。
+
+Capped Torus
+
+```C
+float sdCappedTorus(in vec3 p, in vec2 sc, in float ra, in float rb)
+{
+  p.x = abs(p.x);
+  float k = (sc.y*p.x>sc.x*p.y) ? dot(p.xy,sc) : length(p.xy);
+  return sqrt( dot(p,p) + ra*ra - 2.0*ra*k ) - rb;
+}
+```
+
+这个SDF我在shader toy上试了几下才明白参数的含义，sc表示Capped Torus的半圆心角的sin和cos，ra为半径，rb为粗细（也是末端盖子的半径）。它在xy平面上关于y轴对称。和torus不同在于需要去掉截断的部分，并加上圆盖。我们来看看这三行代码究竟在干什么。
+
+第一行对p.x取abs，利用y轴对称。第二行又开始看不懂了，我们想想如果换自己来做该怎么做？我们需要判断p对应的那个截平面是否在半圆心角的扇区内，用cross((sin,cos),p.xy)>0就能判断。
+
+如果在扇区内，我们用torus的方式就能求出距离。
+$$d=length(length(p.xy)-r_a,p.z)-r_b$$
+
+如果不在扇区内，则需要求p到端点的距离。
+$$p_{end}=(r_a*sin,r_a*cos,0)$$
+$$d=length(p-p_{end})-r_b$$
+
+iq的代码还是一如既往的紧凑，把这两块写到一起，有兴趣的童鞋可以推一下。
+
+Link
+
+```C
+float sdLink( vec3 p, float le, float r1, float r2 )
+{
+  vec3 q = vec3( p.x, max(abs(p.y)-le,0.0), p.z );
+  return length(vec2(length(q.xy)-r1,q.z)) - r2;
+}
+```
+
+Link的形状可以看成是xy平面上的矩形，上下两头分别变成半圆，然后加上粗细。le是矩形半高，r1是矩形宽（也就是两头的半径），r2是粗细。先看看返回值，还是熟悉的味道，把q投影到截平面，求length - r2。那q是什么意思呢，再看第一行，q的x，z分量与p相同，只是y做了一些变化：
+
+$$q_y=max(abs(p_y)-le, 0)$$
+
+这里分两种情况：
+
+* 当abs(p.y)<le，那么截平面平行于xz平面，投影时只用p.x，p.y=0。
+* 当abs(p.y)>le，截平面截到半圈区，p.y=abs(p.y)-le。
+
+
+环环相扣形成锁链的代码也很有趣：
+
+```C
+// paramteres
+const float le = 0.13, r1 = 0.2, r2 = 0.09;
+
+// make a chain out of sdLink's
+vec3 a = pos; a.y = fract(a.y    )-0.5;
+vec3 b = pos; b.y = fract(b.y+0.5)-0.5;
+
+// evaluate two links
+return min(sdLink(a.xyz,le,r1,r2),
+            sdLink(b.zyx,le,r1,r2));
+```
+
+为了连成锁链，每个Link的y方向需要加平移，并加上旋转。Link的平移是通过对pos.y做偏移，旋转则是交换x和z分量实现的。
