@@ -52,4 +52,4 @@ $$d=length(p-p_{end})-r_b$$</p><p>iq的代码还是一如既往的紧凑，把�
 </span></span><span style=display:flex><span><span style=color:#75715e>// evaluate two links
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>return</span> <span style=color:#a6e22e>min</span>(sdLink(a.xyz,le,r1,r2),
 </span></span><span style=display:flex><span>            sdLink(b.zyx,le,r1,r2));
-</span></span></code></pre></div><p>为了连成锁链，每个Link的y方向需要加平移，并加上旋转。Link的平移是通过对pos.y做偏移，旋转则是交换x和z分量实现的。</p></main><footer><script type=text/javascript src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></footer></body></html>
+</span></span></code></pre></div><p>为了连成锁链，每个Link的y方向需要加平移，并加上旋转。Link的平移是通过对pos.y做逆平移，其中fract稍微有点绕，我一直以为它是取小数部分，实则有所不同，它的计算公式是：</p><p>$$fract(x)=x-floor(x)$$</p><p>对正数而言就是小数无疑，但如果x是负数比如-0.1，floor(x)是-1而非0，所以fract(-0.1)结果是0.9，因此fract(x)区间为[0,1)，减去0.5后则是[-0.5,0.5)，这样才能显示完整的一个link。</p><p>旋转则是交换x和z分量实现的，相当于关于45度线对称了一下。</p></main><footer><script type=text/javascript src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></footer></body></html>
