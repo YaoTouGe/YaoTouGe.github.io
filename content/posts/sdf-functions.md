@@ -35,7 +35,7 @@ b是box的extent，也就是size的一半。第一行 abs(p) - b 把八个象限
 
 在基本的box上加以变化，还能衍生出其他形状。
 
-Round Box：
+*Round Box：*
 
 ``` C
 float sdRoundBox( vec3 p, vec3 b, float r )
@@ -47,7 +47,7 @@ float sdRoundBox( vec3 p, vec3 b, float r )
 
 唯一的变化是return的时候减r，第一反应是：这就完啦？？？细想确实如此，给box加上半径为r的圆角，如果p在box外，原本距离为d，现在距离是d-r。如果在box内，原本距离是d，现在是d + -r，都是d-r。
 
-Box Frame：
+*Box Frame：*
 
 ``` C
 float sdBoxFrame( vec3 p, vec3 b, float e )
@@ -93,7 +93,7 @@ float sdTorus( vec3 p, vec2 t )
 
 参数t表示半径和粗细，代码所表示的是一个在xz平面上的甜甜圈，想象一个平行于y轴经过原点的平面，与甜甜圈相截得到无数个小圆，我们要求p与小圆之间的最短距离。第一行代码将p映射到对应的截平面上以小圆的圆心为原点的二维平面上，第二行就是求点到圆的距离了。
 
-Capped Torus
+*Capped Torus*
 
 ```C
 float sdCappedTorus(in vec3 p, in vec2 sc, in float ra, in float rb)
@@ -117,7 +117,7 @@ $$d=length(p-p_{end})-r_b$$
 
 iq的代码还是一如既往的紧凑，把这两块写到一起，有兴趣的童鞋可以推一下。
 
-Link
+*Link*
 
 ```C
 float sdLink( vec3 p, float le, float r1, float r2 )
@@ -159,3 +159,93 @@ $$fract(x)=x-floor(x)$$
 对正数而言就是小数无疑，但如果x是负数比如-0.1，floor(x)是-1而非0，所以fract(-0.1)结果是0.9，因此fract(x)区间为[0,1)，减去0.5后则是[-0.5,0.5)，这样才能显示完整的一个link。
 
 旋转则是交换x和z分量实现的，相当于关于45度线对称了一下。
+
+### Cone
+
+Cylinder 相对比较简单，就是把p投影到xz平面，然后和圆作比较，我们看看复杂一些的Cone。
+
+```C
+float sdCone( in vec3 p, in vec2 c, float h )
+{
+  // c is the sin/cos of the angle, h is height
+  // Alternatively pass q instead of (c,h),
+  // which is the point at the base in 2D
+  vec2 q = h*vec2(c.x/c.y,-1.0);
+    
+  vec2 w = vec2( length(p.xz), p.y );
+  vec2 a = w - q*clamp( dot(w,q)/dot(q,q), 0.0, 1.0 );
+  vec2 b = w - q*vec2( clamp( w.x/q.x, 0.0, 1.0 ), 1.0 );
+  float k = sign( q.y );
+  float d = min(dot( a, a ),dot(b, b));
+  float s = max( k*(w.x*q.y-w.y*q.x),k*(w.y-q.y)  );
+  return sqrt(d)*sign(s);
+}
+```
+
+首先Cone是关于y轴对称的几何体，顶点在原点，如果h为正则Cone朝负y方向。我们可以用经过p和y轴的平面截Cone，然后判断x>0的二分之一个2D三角形和点的位置关系（再次利用对称）。
+
+q是(h*tan,-h)，也就是2D三角形右下角的顶点，w是p投影到截平面上的2D坐标。w与三角形的距离只有两种情况：到斜边和到底边。a是到w到斜边投影点的向量，b是到底边投影点的向量。所以最终距离就是min(length(a), length(b))。
+
+此外还要判断正负号，cross(w,q)<0意味着肯定在三角形外，否则若w.y-q.y<0，也在三角形外。这块对应的代码对二者取min（经常会有各种技巧来避免分支）。
+
+*Not Exact Cone*
+
+```C
+float sdCone( vec3 p, vec2 c, float h )
+{
+  float q = length(p.xz);
+  return max(dot(c.xy,vec2(q,p.y)),-h-p.y);
+}
+```
+
+这个不精确的Cone又是啥呢，dot(c.xy, vec2(q,p.y))等效于垂直于oc的边做cross，也就到把垂直于oc的边作为斜边的距离，与到底边距离，二者取max。这种方式只保证最小距离的投影点在底边或斜边时，计算结果是正确的。如果投影点在顶点上，距离就不对了，但是它大多数情况下不影响渲染的结果，raymarching求交的点依然正确，虽然距离值不一定正确（这是一种不错的简化近似思路）。
+
+*Infinite Cone*
+
+```C
+float sdCone( vec3 p, vec2 c )
+{
+    // c is the sin/cos of the angle
+    vec2 q = vec2( length(p.xz), -p.y );
+    float d = length(q-c*max(dot(q,c), 0.0));
+    return d * ((q.x*c.y-q.y*c.x<0.0)?-1.0:1.0);
+}
+```
+
+无限远就是把锥体的底面去掉就行，只计算到斜边（射线）的投影距离。
+
+### Prism
+
+*Triangular Prism bound*
+
+```C
+float sdTriPrism( vec3 p, vec2 h )
+{
+  vec3 q = abs(p);
+  return max(q.z-h.y,max(q.x*0.866025+p.y*0.5,-p.y)-h.x*0.5);
+}
+```
+
+h分别是底面三角形的高和侧面高，这也是一个近似的SDF，代码中出现一个magic number，先猜测和三角函数有关，0.8660254对应sin(60)或cos(30)。后面的近似和之前的cone很像，直接对到底边，侧面的距离求max。如果按照这个思路，那最后结果应该是:
+
+```C
+  return max(q.z-h.y,max(q.x*0.866025+p.y*0.5,-p.y-h.x*0.5));
+```
+
+但原代码却把-h.x*0.5挪到了括号外面，这一步的含义是什么呢。在shader toy中测试，它影响的是底面的大小，还没搞明白（未完待续）。
+
+
+*Hexagonal Prism*
+
+```C
+float sdHexPrism( vec3 p, vec2 h )
+{
+  const vec3 k = vec3(-0.8660254, 0.5, 0.57735);
+  p = abs(p);
+  p.xy -= 2.0*min(dot(k.xy, p.xy), 0.0)*k.xy;
+  vec2 d = vec2(
+       length(p.xy-vec2(clamp(p.x,-k.z*h.x,k.z*h.x), h.x))*sign(p.y-h.x),
+       p.z-h.y );
+  return min(max(d.x,d.y),0.0) + length(max(d,0.0));
+}
+```
