@@ -3,7 +3,8 @@ title: LeetCode regular expression
 date: 2023-02-10
 draft: false
 tags:
-- leetcode, alg
+- leetcode
+- alg
 ---
 
 最近打算刷刷题，记录一下做题的思路。现在工作形式不同了，搞技术支持代码写的少，看得多，和人打交道多。。。其实感觉自己不太合适干这个，先凑合着，先刷刷题以后再去别的地儿呢是不是。
