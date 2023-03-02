@@ -1,5 +1,5 @@
 ---
-title: [GDC笔记] Next level render in World of Tank
+title: GDC笔记 Next level render in World of Tank
 date: 2023-03-2 11:01:47
 draft: false
 tags:
