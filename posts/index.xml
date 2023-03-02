@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on yaotouge's place</title><link>http://yaotouge.github.io/posts/</link><description>Recent content in Posts on yaotouge's place</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 11 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="http://yaotouge.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>LeetCode die simulator</title><link>http://yaotouge.github.io/posts/leetcode/die_simulator/</link><pubDate>Sat, 11 Feb 2023 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/posts/leetcode/die_simulator/</guid><description>刷题不只是刷题，更重要的是刷各种算法题的思路（套路），找到一个宝藏up主讲的很清楚明了bilibili，茫茫刷题路呀，慢慢来吧。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on yaotouge's place</title><link>http://yaotouge.github.io/posts/</link><description>Recent content in Posts on yaotouge's place</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 01 Mar 2023 11:01:47 +0000</lastBuildDate><atom:link href="http://yaotouge.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>GDC笔记 Next level render in World of Tank</title><link>http://yaotouge.github.io/posts/wot_gdc/</link><pubDate>Wed, 01 Mar 2023 11:01:47 +0000</pubDate><guid>http://yaotouge.github.io/posts/wot_gdc/</guid><description>又不想刷题了，最近看了坦克世界分享的gdc视频，里面有许多有意思的点子，记录一下。坦克世界战场内可视的范围很大，32km x 32km，但是实际游戏可达区域只有1km x 1km左右（这不能算大世界了），但渲染技术很扎实，结合多种方案，最后的效果也相当不错，主要是阴影，地形和水体。
+阴影，Adaptive SM，ScreenSpace，material shadow（视差），cloud，semitransparent），阴影结合了很多种技术，各有不同的侧重，负责场景中的一部分效果。 Adaptive Shadow Map
+Semitransparent Shadow
+Screen Space Shadow(接触阴影？)
+Material Shadow(视差)
+Overview
+GI（还是lightprobe，但优化了摆放算法，四叉树自适应摆放，高度自适应） Adaptive Probe Placement
+Best Fit Placement
+Terrain GPU instancing，stiching（对patch 的顶点位移来缝合漏洞） 用距离当作metrics，对地形的基础geometry做LOD，然后根据斜率等对近景做adaptive tesselation（近景可能会有石头，贴花等各种改变近景高度的元素）。highly frequency 高度数据存在（近景地上的石头等）材质中，细分时采样，density map来防止过度的细分导致过高的quad overdraw。
+坦克履带和地形碰撞，由于细节的高度图是渲染时用到，存在GPU中，所以CPU这边碰撞时需要从GPU回读。有N帧的延迟
+优化terrain的纹理重复pattern，用了micro，macro，global三个层级的纹理混合，有点类似分形噪声？要注意的是，混合时要用当前层级颜色-上一层级的平均，比如macro - avg micro，否则颜色会有问题。
+Height based texture blending。但还是很费，最后用的procedural VT（就是RVT？）实现雪地轨迹等动态贴画效果,实时在GPU上压缩为DXT(1/5)格式。
+Indirect Map（page table），并没有全部在内存中，而是分了upper level和 bottom level两个层级，就像以前做HLOD那样。
+远景 outland，可玩区域只有1km^2（所以这个场景其实还不算很大。。。），整个可视场景是32km^2， inner terrain与outland的模型做混合，用了特殊的材质，模型。
+Water Clipmap+static quad tree(preprocess)
+Adaptive tesselation(like terrain)
+Tiled animation sequences of normal height and caustic</description></item><item><title>LeetCode die simulator</title><link>http://yaotouge.github.io/posts/leetcode/die_simulator/</link><pubDate>Sat, 11 Feb 2023 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/posts/leetcode/die_simulator/</guid><description>刷题不只是刷题，更重要的是刷各种算法题的思路（套路），找到一个宝藏up主讲的很清楚明了bilibili，茫茫刷题路呀，慢慢来吧。
 今天刷每日一题，又碰到一道困难的动态规划题，一下子就懵了，跟着这位up主一起学习。一般的动态规划的步骤是：回溯 =&amp;gt; 记忆化 =&amp;gt; 递推。
 回溯就是用深度优先搜索的形式把题解表示出来。 但一般直接dfs肯定会超时，所以会用数组把计算过的结果cache住，递归过程中直接使用。极大优化计算复杂度。 最后dfs是自顶向下的先递后归的过程，我们可以通过自底向上去掉“递”，只留下归的过程，也就是最终的递推关系了。 总结的步骤相当直接明了是不是，但是实际的题目千变万化，唯有勤学苦练才是。今天这道题是模拟掷骰子，老实说，如果不是看了大佬的步骤套路，如果直接一步到位出动态规划的转移方程，我是绝不可能想出来的，甚至最后得到转换的结果后，我依然无法从直观上去理解状态为什么这么转换。只能理解基本的回溯+记忆。
 第一步先用回溯表达解题过程，很关键的一点是，虽然题目要求的是最后可能的骰子序列的数量，但我们依然要在模拟掷骰子的基础上来计算总数。所以掷骰子的过程中有两个关键点：
@@ -72,12 +88,4 @@ B站的
 实测了一下，确实可以，不过有两步，把文件放进OneDrive之后，先分享得到一个链接，但是这个链接并不能直接使用。于是还需要第二步，打开OneDrive的分享链接，选择顶部的嵌入，这样就可以生成一个能直接访问的图片链接，直接插入Mark Down即可。两步也不算很麻烦，但是OneDrive的网页版需要梯子才能打开，所以还是有些不便。就数据安全性，绝对是完胜上面的B站和微博了，不担心突然就跪了。
 既然OneDrive可以，那百度云盘可不可以呢（邪恶笑）。尝试了一下百度云的分享链接：
 百度云盘就一言难尽了，现在它现在只支持分享私密链接，也就是必须用提取码才能打开，我尝试了一下，使用提取码后，直接复制下载的链接，短时间内是可以使用的，过了一会儿就不行，看来是一个临时链接。
-总结起来就是，免费的只有OneDrive能可靠使用，但得有梯子才行。微博和B站的能用，就是不知道长期稳定性如何，万一挂了，除非自己全部有备份，不然就GG。百度盘基本不能用。</description></item><item><title>GDC笔记 Next level render in World of Tank</title><link>http://yaotouge.github.io/posts/wot_gdc/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/posts/wot_gdc/</guid><description>又不想刷题了，最近看了坦克世界分享的gdc视频，里面有许多有意思的点子，记录一下。坦克世界战场内可视的范围很大，32km x 32km，但是实际游戏可达区域只有1km x 1km左右（这不能算大世界了），但渲染技术很扎实，结合多种方案，最后的效果也相当不错，主要是阴影，地形和水体。
-阴影，Adaptive SM，ScreenSpace，material shadow（视差），cloud，semitransparent），阴影结合了很多种技术，各有不同的侧重，负责场景中的一部分效果。 Adaptive Shadow Map
-Semitransparent Shadow
-Screen Space Shadow(接触阴影？)
-Material Shadow(视差)
-Overview
-GI（还是lightprobe，但优化了摆放算法，四叉树自适应摆放，高度自适应） Adaptive Probe Placement
-Best Fit Placement
-Terrain GPU instancing，stiching（对patch 的顶点位移来缝合漏洞） * 用距离当作metrics，对地形的基础geometry做LOD，然后根据斜率等对近景做adaptive tesselation（近景可能会有石头，贴花等各种改变近景高度的元素）。highly frequency 高度数据存在（近景地上的石头等）材质中，细分时采样，density map来防止过度的细分导致过高的quad overdraw。 * 坦克履带和地形碰撞，由于细节的高度图是渲染时用到，存在GPU中，所以CPU这边碰撞时需要从GPU回读。有N帧的延迟 * 优化terrain的纹理重复pattern，用了micro，macro，global三个层级的纹理混合，有点类似分形噪声？要注意的是，混合时要用当前层级颜色-上一层级的平均，比如macro - avg micro，否则颜色会有问题。 * Height based texture blending。但还是很费，最后用的procedural VT（就是RVT？）实现雪地轨迹等动态贴画效果,实时在GPU上压缩为DXT(1/5)格式。 * Indirect Map（page table），并没有全部在内存中，而是分了upper level和 bottom level两个层级，就像以前做HLOD那样。 * 远景 outland，可玩区域只有1km^2（所以这个场景其实还不算很大。。。），整个可视场景是32km^2， inner terrain与outland的模型做混合，用了特殊的材质，模型。 Water Clipmap+static quad tree(preprocess) * Adaptive tesselation(like terrain) * Tiled animation sequences of normal height and caustic * Refaction based on water normal and depth * Reflection mixes parallax corrected reflection probe and SSR（SSPR？）, 而不是 planar reflection （特指从反射的角度重新渲染一遍整个场景），SSR会优先覆盖probe的颜色。 * Reflection mipmap 用来模拟水面不同粗糙度（normal density and amplitude）的反射。 * 用water surface 得到wetness mask，来改变水底以及岸边的wetness * particles，foam，underwater（气泡，水花之类的），deformation（涡流，阻挡物造成的波浪等）水面的形变也是用粒子实现的，平行于水平面，但在渲染的过程中并不输出颜色，而是改变水面的高度，这个想法很有意思！Fully artist control相比于程序化的方法。</description></item></channel></rss>
+总结起来就是，免费的只有OneDrive能可靠使用，但得有梯子才行。微博和B站的能用，就是不知道长期稳定性如何，万一挂了，除非自己全部有备份，不然就GG。百度盘基本不能用。</description></item></channel></rss>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>graphics on yaotouge's place</title><link>http://yaotouge.github.io/tags/graphics/</link><description>Recent content in graphics on yaotouge's place</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 09 Aug 2021 00:21:28 +0000</lastBuildDate><atom:link href="http://yaotouge.github.io/tags/graphics/index.xml" rel="self" type="application/rss+xml"/><item><title>GPU Flow-Control Idioms 笔记</title><link>http://yaotouge.github.io/posts/gpu-branch-strategies/</link><pubDate>Mon, 09 Aug 2021 00:21:28 +0000</pubDate><guid>http://yaotouge.github.io/posts/gpu-branch-strategies/</guid><description>一直只知道shader中用分支会有额外开销，但总想搞清楚，GPU执行分支的时候发生了什么。这点不同架构，不同厂商的GPU底层细节可能都不同，他们也不会公开太多消息。我找到GPU Gems2的一篇老文章学习（貌似是好多年前的，里面还在讲GeForce 6系列显卡，有些内容可能比较过时，不过基本原理应该还是有参考价值的），做笔记记录一下。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>graphics on yaotouge's place</title><link>http://yaotouge.github.io/tags/graphics/</link><description>Recent content in graphics on yaotouge's place</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 01 Mar 2023 11:01:47 +0000</lastBuildDate><atom:link href="http://yaotouge.github.io/tags/graphics/index.xml" rel="self" type="application/rss+xml"/><item><title>GDC笔记 Next level render in World of Tank</title><link>http://yaotouge.github.io/posts/wot_gdc/</link><pubDate>Wed, 01 Mar 2023 11:01:47 +0000</pubDate><guid>http://yaotouge.github.io/posts/wot_gdc/</guid><description>又不想刷题了，最近看了坦克世界分享的gdc视频，里面有许多有意思的点子，记录一下。坦克世界战场内可视的范围很大，32km x 32km，但是实际游戏可达区域只有1km x 1km左右（这不能算大世界了），但渲染技术很扎实，结合多种方案，最后的效果也相当不错，主要是阴影，地形和水体。
+阴影，Adaptive SM，ScreenSpace，material shadow（视差），cloud，semitransparent），阴影结合了很多种技术，各有不同的侧重，负责场景中的一部分效果。 Adaptive Shadow Map
+Semitransparent Shadow
+Screen Space Shadow(接触阴影？)
+Material Shadow(视差)
+Overview
+GI（还是lightprobe，但优化了摆放算法，四叉树自适应摆放，高度自适应） Adaptive Probe Placement
+Best Fit Placement
+Terrain GPU instancing，stiching（对patch 的顶点位移来缝合漏洞） 用距离当作metrics，对地形的基础geometry做LOD，然后根据斜率等对近景做adaptive tesselation（近景可能会有石头，贴花等各种改变近景高度的元素）。highly frequency 高度数据存在（近景地上的石头等）材质中，细分时采样，density map来防止过度的细分导致过高的quad overdraw。
+坦克履带和地形碰撞，由于细节的高度图是渲染时用到，存在GPU中，所以CPU这边碰撞时需要从GPU回读。有N帧的延迟
+优化terrain的纹理重复pattern，用了micro，macro，global三个层级的纹理混合，有点类似分形噪声？要注意的是，混合时要用当前层级颜色-上一层级的平均，比如macro - avg micro，否则颜色会有问题。
+Height based texture blending。但还是很费，最后用的procedural VT（就是RVT？）实现雪地轨迹等动态贴画效果,实时在GPU上压缩为DXT(1/5)格式。
+Indirect Map（page table），并没有全部在内存中，而是分了upper level和 bottom level两个层级，就像以前做HLOD那样。
+远景 outland，可玩区域只有1km^2（所以这个场景其实还不算很大。。。），整个可视场景是32km^2， inner terrain与outland的模型做混合，用了特殊的材质，模型。
+Water Clipmap+static quad tree(preprocess)
+Adaptive tesselation(like terrain)
+Tiled animation sequences of normal height and caustic</description></item><item><title>GPU Flow-Control Idioms 笔记</title><link>http://yaotouge.github.io/posts/gpu-branch-strategies/</link><pubDate>Mon, 09 Aug 2021 00:21:28 +0000</pubDate><guid>http://yaotouge.github.io/posts/gpu-branch-strategies/</guid><description>一直只知道shader中用分支会有额外开销，但总想搞清楚，GPU执行分支的时候发生了什么。这点不同架构，不同厂商的GPU底层细节可能都不同，他们也不会公开太多消息。我找到GPU Gems2的一篇老文章学习（貌似是好多年前的，里面还在讲GeForce 6系列显卡，有些内容可能比较过时，不过基本原理应该还是有参考价值的），做笔记记录一下。
 CPU和GPU的分支模型 首先看看CPU分支的性能开销，CPU的指令流水线通常比较长（能达到10到20个时钟周期），为了让效率最大化，理想情况是不希望流水线被打断的。所以CPU的分支预测很重要。如果没有分支预测，在条件跳转（condition jump）执行完毕之前，CPU必须等待，流水线只能空着。为了改善这个问题，CPU会对分支进行预测，根据预测结果提前让指令进入流水线执行，如果预测失败，也不过是把提前执行的指令中断，重新让正确的指令进入流水线。
 在GPU上，最新的GPU（那个年代还是GeForce 6xxx系列）也有类似的分支指令，但性能与CPU有些许不同。更老的GPU则没有原生的分支指令，而是用其他方式模拟分支的行为。并行架构中最常见的机制是SIMD（单指令多数据）和MIMD（多指令多数据）。SIMD架构中的所有处理单元在同一时刻执行相同的指令。MIMD中不同的处理器则可以同时执行不同的指令。GPU目前用三种方式来实现分支：MIMD分支，SIMD分支和条件码。
 MIMD
@@ -39,12 +55,4 @@ d是一个浮点数，浮点数有一个让人比较头疼的特性，就是其�
 对应的，z-buffer值与word z的函数曲线上，将精度可视化，橙色十字表示z-buffer中的精度分布，绿色十字表示每个橙色十字对应到word z的值：
 这下更明显了，函数曲线本身的特点就是，word z接近near的部分占用了[0, 1]]区间的一大半值域，再加上浮点数的精度分布在0附近更高，二者互相增益，导致z-buffer的精度在世界空间的分布更集中于near附近，极度不均匀。
 实验做到这里，不得不佩服前人的智慧了，既然这两个效果互相增益，导致精度更不均匀，那如果能让二者互相抵消，是不是能够很大程度的缓解这个问题呢？于是有人想办法将z-buffer的值反过来，0对应far，1对应near，这样浮点的精度分布和透视投影的z值函数曲线的分布就能互相抵消了。这里对projection矩阵做了修改，左乘一个转换矩阵：
-$$T M_p P_w=\begin{bmatrix} 1&amp;amp;0&amp;amp;0&amp;amp;0 \\ 0&amp;amp;1&amp;amp;0&amp;amp;0 \\ 0&amp;amp;0&amp;amp;-1&amp;amp;1 \\ 0&amp;amp;0&amp;amp;0&amp;amp;1 \end{bmatrix} \begin{bmatrix} s &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 \\ 0 &amp;amp; s &amp;amp; 0 &amp;amp; 0 \\ 0 &amp;amp; 0 &amp;amp; \frac{f}{f-n} &amp;amp; -\frac{fn}{f-n} \\ 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0 \end{bmatrix} \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix}$$</description></item><item><title>GDC笔记 Next level render in World of Tank</title><link>http://yaotouge.github.io/posts/wot_gdc/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/posts/wot_gdc/</guid><description>又不想刷题了，最近看了坦克世界分享的gdc视频，里面有许多有意思的点子，记录一下。坦克世界战场内可视的范围很大，32km x 32km，但是实际游戏可达区域只有1km x 1km左右（这不能算大世界了），但渲染技术很扎实，结合多种方案，最后的效果也相当不错，主要是阴影，地形和水体。
-阴影，Adaptive SM，ScreenSpace，material shadow（视差），cloud，semitransparent），阴影结合了很多种技术，各有不同的侧重，负责场景中的一部分效果。 Adaptive Shadow Map
-Semitransparent Shadow
-Screen Space Shadow(接触阴影？)
-Material Shadow(视差)
-Overview
-GI（还是lightprobe，但优化了摆放算法，四叉树自适应摆放，高度自适应） Adaptive Probe Placement
-Best Fit Placement
-Terrain GPU instancing，stiching（对patch 的顶点位移来缝合漏洞） * 用距离当作metrics，对地形的基础geometry做LOD，然后根据斜率等对近景做adaptive tesselation（近景可能会有石头，贴花等各种改变近景高度的元素）。highly frequency 高度数据存在（近景地上的石头等）材质中，细分时采样，density map来防止过度的细分导致过高的quad overdraw。 * 坦克履带和地形碰撞，由于细节的高度图是渲染时用到，存在GPU中，所以CPU这边碰撞时需要从GPU回读。有N帧的延迟 * 优化terrain的纹理重复pattern，用了micro，macro，global三个层级的纹理混合，有点类似分形噪声？要注意的是，混合时要用当前层级颜色-上一层级的平均，比如macro - avg micro，否则颜色会有问题。 * Height based texture blending。但还是很费，最后用的procedural VT（就是RVT？）实现雪地轨迹等动态贴画效果,实时在GPU上压缩为DXT(1/5)格式。 * Indirect Map（page table），并没有全部在内存中，而是分了upper level和 bottom level两个层级，就像以前做HLOD那样。 * 远景 outland，可玩区域只有1km^2（所以这个场景其实还不算很大。。。），整个可视场景是32km^2， inner terrain与outland的模型做混合，用了特殊的材质，模型。 Water Clipmap+static quad tree(preprocess) * Adaptive tesselation(like terrain) * Tiled animation sequences of normal height and caustic * Refaction based on water normal and depth * Reflection mixes parallax corrected reflection probe and SSR（SSPR？）, 而不是 planar reflection （特指从反射的角度重新渲染一遍整个场景），SSR会优先覆盖probe的颜色。 * Reflection mipmap 用来模拟水面不同粗糙度（normal density and amplitude）的反射。 * 用water surface 得到wetness mask，来改变水底以及岸边的wetness * particles，foam，underwater（气泡，水花之类的），deformation（涡流，阻挡物造成的波浪等）水面的形变也是用粒子实现的，平行于水平面，但在渲染的过程中并不输出颜色，而是改变水面的高度，这个想法很有意思！Fully artist control相比于程序化的方法。</description></item></channel></rss>
+$$T M_p P_w=\begin{bmatrix} 1&amp;amp;0&amp;amp;0&amp;amp;0 \\ 0&amp;amp;1&amp;amp;0&amp;amp;0 \\ 0&amp;amp;0&amp;amp;-1&amp;amp;1 \\ 0&amp;amp;0&amp;amp;0&amp;amp;1 \end{bmatrix} \begin{bmatrix} s &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 \\ 0 &amp;amp; s &amp;amp; 0 &amp;amp; 0 \\ 0 &amp;amp; 0 &amp;amp; \frac{f}{f-n} &amp;amp; -\frac{fn}{f-n} \\ 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 0 \end{bmatrix} \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix}$$</description></item></channel></rss>
