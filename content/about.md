@@ -3,4 +3,6 @@ title: About
 draft: false
 ---
 
-好好生活，好好摸鱼。
+We have petabytes of knowledge and technology :)
+
+Our goal is to develop more intuitive tools for crafting vibrant, innovative effects, turning the impossible into possible.
