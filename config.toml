@@ -1,6 +1,6 @@
 baseURL = "http://yaotouge.github.io"
 languageCode = "en-us"
-title = "yaotouge's place"
+title = "PetaBytes Studio"
 theme = "hugo-xmin"
 
 [permalinks]
