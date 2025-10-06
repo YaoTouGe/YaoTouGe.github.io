@@ -31,6 +31,8 @@ The next step is to make materials' receiving LTC lighting:
 ### For Shader Graph
 There is no way for us to intercept the lighting process of Fragment block, but we can just add our additional LTC lighting to the emission channel, which will be added to the final lighting result. 
 
+![img](/imgs/shaergraph_sample.png)
+
 So what we need is add a LTCLighting node (inclued in this package) in shader graph, add input channels which is almost identical with Fragment block, and link output to Fragment block's emission. You can just refer to the ShaderGraph sample.
 
 ### For Shader Code
@@ -76,6 +78,8 @@ There are common attributes for both light types:
 |-|-|
 |Range|The radius of bounding sphere, places outside the sphere will not be lighted|
 |Double Sided|If the polygon light affect both sides|
+|PolygonPoints|Assign customized polygon shapes, the polygon points should be 2D polygon, and centered at origin|
+|Preset|Some preset polygon shapes like pentagon, hexagon, etc. It's an editor only attribute for convenience, not exist in runtime|
 
 ### Attributes Linear light specific
 
