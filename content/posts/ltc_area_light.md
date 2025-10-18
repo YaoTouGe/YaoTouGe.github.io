@@ -95,7 +95,7 @@ There are common attributes for both light types:
 |PolygonPoints|Assign customized polygon shapes, the polygon points should be 2D polygon, and centered at origin|
 |Preset|Some preset polygon shapes like pentagon, hexagon, etc. It's an editor only attribute for convenience, not exist in runtime|
 
-### Attributes Linear light specific
+### Attributes linear light specific
 
 |Name|Description|
 |-|-|
@@ -104,7 +104,7 @@ There are common attributes for both light types:
 |End Point|The end point of linear light, the center of end cap|
 |Radius|It is not related with **Range**, it's the thickness of the linear light, the thicker the brighter|
 
-### Attributes Textured light specific
+### Attributes textured light specific
 
 |Name|Description|
 |-|-|
