@@ -13,6 +13,6 @@ Contact us:
 
 {{< rawhtml >}}
 <p align="center">
-    <img src={{ relURL "imgs/about.png" }}>
+    <img src="/imgs/about.png">
 </p>
 {{< /rawhtml >}}
