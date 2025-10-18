@@ -1,4 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on PetaBytes Studio</title><link>http://yaotouge.github.io/posts/</link><description>Recent content in Posts on PetaBytes Studio</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 10 Sep 2025 11:01:47 +0000</lastBuildDate><atom:link href="http://yaotouge.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>LTC Real Time Area Lights</title><link>http://yaotouge.github.io/posts/ltc_area_light/</link><pubDate>Wed, 10 Sep 2025 11:01:47 +0000</pubDate><guid>http://yaotouge.github.io/posts/ltc_area_light/</guid><description>&lt;p&gt;This document will guide you through the usage of LTC light package.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on PetaBytes Studio</title><link>http://yaotouge.github.io/posts/</link><description>Recent content in Posts on PetaBytes Studio</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 10 Sep 2025 11:01:47 +0000</lastBuildDate><atom:link href="http://yaotouge.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>LTC Real Time Area Lights</title><link>http://yaotouge.github.io/posts/ltc_area_light/</link><pubDate>Wed, 10 Sep 2025 11:01:47 +0000</pubDate><guid>http://yaotouge.github.io/posts/ltc_area_light/</guid><description>&lt;p&gt;This document will guide you through the usage of LTC light package. Here are showcases for different light type:&lt;/p&gt;
+&lt;p&gt;Polygon light:&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://yaotouge.github.io/imgs/polygon.png" alt="img"&gt;&lt;/p&gt;
+&lt;p&gt;Linear light:&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://yaotouge.github.io/imgs/linear.png" alt="img"&gt;&lt;/p&gt;
+&lt;p&gt;Textured light:&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://yaotouge.github.io/imgs/textured.png" alt="img"&gt;&lt;/p&gt;
 &lt;h1 id="samples"&gt;Samples&lt;/h1&gt;
 &lt;p&gt;There are two samples in package, you can import them from PackageManager&amp;rsquo;s Sample tab and play around.&lt;/p&gt;
 &lt;h3 id="shader-graph-sample"&gt;Shader Graph Sample&lt;/h3&gt;
