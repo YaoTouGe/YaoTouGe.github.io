@@ -31,7 +31,7 @@ The next step is to make materials' receiving LTC lighting:
 ### For Shader Graph
 There is no way for us to intercept the lighting process of Fragment block, but we can just add our additional LTC lighting to the emission channel, which will be added to the final lighting result. 
 
-![img](/imgs/shaergraph_sample.png)
+![img](/imgs/shadergraph_sample.png)
 
 So what we need is add a LTCLighting node (inclued in this package) in shader graph, add input channels which is almost identical with Fragment block, and link output to Fragment block's emission. You can just refer to the ShaderGraph sample.
 
@@ -48,6 +48,7 @@ Use URP lit as an example, firstly we should include LTC shaders in LitForwardPa
 Then add LTC lighting after URP's pbr calculation:
 
 ``` cpp
+// For example in LitForwardPass.hlsl
 InitializeBakedGIData(input, inputData);
 half4 color = UniversalFragmentPBR(inputData, surfaceData);
 
@@ -61,7 +62,7 @@ The last step is adding LTC light instances in your scene.
 
 # LTC Lights
 
-Currently we support polygon light and linear light, more types will be added in the future such as textured area light, bezier curve shaped area lights.
+Currently we support polygon light, linear light and textured area light. More types will be added in the future such as bezier curve shaped area lights.
 
 There are common attributes for both light types:
 
@@ -89,3 +90,6 @@ There are common attributes for both light types:
 |Start Point|The start point of linear light, the center of start cap|
 |End Point|The end point of linear light, the center of end cap|
 |Radius|It is not related with **Range**, it's the thickness of the linear light, the thicker the brighter|
+
+### Attributes Textured light specific
+
