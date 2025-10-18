@@ -10,5 +10,5 @@
 
  
 &lt;p align="center"&gt;
- &lt;img src="imgs/about.png"&gt;
+ &lt;img src={{ relURL "imgs/about.png" }}&gt;
 &lt;/p&gt;</description></item></channel></rss>
