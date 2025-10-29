@@ -19,7 +19,7 @@ draft: false
 
 
 # 示例项目
-该资源包包含两个示例项目，你可在 PackageManager（资源包管理器）的「Samples（示例）」标签页中导入并试用。
+该资源包包含两个示例项目，你可在 PackageManager（资源包管理器）的「Samples（示例）」标签页中导入查看，若没有 Samples 标签页，也可以直接从 package 目录下的 Samples~ 拷贝到 Assets 中。
 
 ## Shader Graph 示例
 此示例展示如何自定义 Shader Graph，使其能够接收 LTC 光照。  

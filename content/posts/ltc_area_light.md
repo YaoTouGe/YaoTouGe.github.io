@@ -23,7 +23,7 @@ Textured light:
 
 # Samples
 
-There are two samples in package, you can import them from PackageManager's Sample tab and play around.
+There are two samples in package, you can import them from PackageManager's Sample tab and play around. If no Sample tab appears, you can also copy Realtime Area Light/Samples~ folder to Assets.
 
 ### Shader Graph Sample
 It demonstrates how to customize a shader graph to make it receives LTC lighting.
