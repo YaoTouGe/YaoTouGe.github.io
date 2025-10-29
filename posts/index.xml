@@ -6,7 +6,7 @@
 &lt;h3 id="纹理光源"&gt;纹理光源&lt;/h3&gt;
 &lt;p&gt;&lt;img src="http://yaotouge.github.io/imgs/textured.png" alt="图片"&gt;&lt;/p&gt;
 &lt;h1 id="示例项目"&gt;示例项目&lt;/h1&gt;
-&lt;p&gt;该资源包包含两个示例项目，你可在 PackageManager（资源包管理器）的「Samples（示例）」标签页中导入并试用。&lt;/p&gt;
+&lt;p&gt;该资源包包含两个示例项目，你可在 PackageManager（资源包管理器）的「Samples（示例）」标签页中导入查看，若没有 Samples 标签页，也可以直接从 package 目录下的 Samples~ 拷贝到 Assets 中。&lt;/p&gt;
 &lt;h2 id="shader-graph-示例"&gt;Shader Graph 示例&lt;/h2&gt;
 &lt;p&gt;此示例展示如何自定义 Shader Graph，使其能够接收 LTC 光照。&lt;br&gt;
 进入Play模式后，场景会在随机位置随机生成多边形光源或线光源；同时还有一个顶点不断变化的多边形光源，演示如何在运行时设置多边形光源的形状。&lt;/p&gt;
@@ -21,8 +21,7 @@
 &lt;p&gt;&lt;img src="http://yaotouge.github.io/imgs/shadergraph_sample.png" alt="图片"&gt;&lt;/p&gt;
 &lt;p&gt;操作步骤如下：在 Shader Graph 中添加一个「LTCLighting」节点（该节点已包含在本资源包中），为其添加与 Fragment 模块几乎完全一致的输入通道，再将输出连到 Fragment 模块的自发光通道即可。你可参考 Shader Graph 示例项目中的具体设置。&lt;/p&gt;
 &lt;h2 id="针对-shader-代码的设置"&gt;针对 Shader 代码的设置&lt;/h2&gt;
-&lt;p&gt;扩展手写着色器以支持 LTC 光照同样便捷，资源包中已提供辅助函数，可将 URP（通用渲染管线）光照着色器的输入转换为 LTC 光照的输入——实际上两者的输入格式基本一致。&lt;/p&gt;
-&lt;p&gt;以 URP Lit 着色器为例，具体步骤如下：&lt;/p&gt;</description></item><item><title>LTC Real Time Area Lights</title><link>http://yaotouge.github.io/posts/ltc_area_light/</link><pubDate>Wed, 10 Sep 2025 11:01:47 +0000</pubDate><guid>http://yaotouge.github.io/posts/ltc_area_light/</guid><description>&lt;p&gt;This document will guide you through the usage of LTC light package. Here are showcases for different light type:&lt;/p&gt;
+&lt;p&gt;扩展手写着色器以支持 LTC 光照同样便捷，资源包中已提供辅助函数，可将 URP（通用渲染管线）光照着色器的输入转换为 LTC 光照的输入——实际上两者的输入格式基本一致。&lt;/p&gt;</description></item><item><title>LTC Real Time Area Lights</title><link>http://yaotouge.github.io/posts/ltc_area_light/</link><pubDate>Wed, 10 Sep 2025 11:01:47 +0000</pubDate><guid>http://yaotouge.github.io/posts/ltc_area_light/</guid><description>&lt;p&gt;This document will guide you through the usage of LTC light package. Here are showcases for different light type:&lt;/p&gt;
 &lt;p&gt;Polygon light:&lt;/p&gt;
 &lt;p&gt;&lt;img src="http://yaotouge.github.io/imgs/polygon.png" alt="img"&gt;&lt;/p&gt;
 &lt;p&gt;Linear light:&lt;/p&gt;
@@ -30,7 +29,6 @@
 &lt;p&gt;Textured light:&lt;/p&gt;
 &lt;p&gt;&lt;img src="http://yaotouge.github.io/imgs/textured.png" alt="img"&gt;&lt;/p&gt;
 &lt;h1 id="samples"&gt;Samples&lt;/h1&gt;
-&lt;p&gt;There are two samples in package, you can import them from PackageManager&amp;rsquo;s Sample tab and play around.&lt;/p&gt;
+&lt;p&gt;There are two samples in package, you can import them from PackageManager&amp;rsquo;s Sample tab and play around. If no Sample tab appears, you can also copy Realtime Area Light/Samples~ folder to Assets.&lt;/p&gt;
 &lt;h3 id="shader-graph-sample"&gt;Shader Graph Sample&lt;/h3&gt;
-&lt;p&gt;It demonstrates how to customize a shader graph to make it receives LTC lighting.&lt;/p&gt;
-&lt;p&gt;When enter play mode, the light spawner will spawn polygon lights or linear lights randomly at random place, and there is also a polygon light whose polygon vertices is changing, shows how to set polygon light shapes at runtime.&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;It demonstrates how to customize a shader graph to make it receives LTC lighting.&lt;/p&gt;</description></item></channel></rss>
