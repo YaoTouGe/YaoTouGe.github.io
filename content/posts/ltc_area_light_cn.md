@@ -6,6 +6,8 @@ tags:
 draft: false
 ---
 
+[WebGL demo](https://yaotouge.github.io/imgs/LTCDemo/WebGLBuild/index.html).
+
 本文档将指导你使用 LTC 光源插件，以下是几种不同光源类型的效果展示：
 
 ### 多边形光源

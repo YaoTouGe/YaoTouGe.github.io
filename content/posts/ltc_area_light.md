@@ -6,6 +6,8 @@ tags:
 draft: false
 ---
 
+[WebGL demo](https://yaotouge.github.io/imgs/LTCDemo/WebGLBuild/index.html).
+
 This document will guide you through the usage of LTC light package. Here are showcases for different light type:
 
 Polygon light:
