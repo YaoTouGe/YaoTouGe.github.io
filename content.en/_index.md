@@ -1,6 +1,8 @@
 ---
 title: ""
 layout: landing
+aliases:
+- /posts
 ---
 
 <div class="book-hero">
