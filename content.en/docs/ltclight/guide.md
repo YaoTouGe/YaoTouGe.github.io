@@ -6,6 +6,8 @@ tags:
 draft: false
 ---
 
+# User Guide
+
 [WebGL demo](https://yaotouge.github.io/imgs/LTCDemo/WebGLBuild/index.html).
 
 This document will guide you through the usage of LTC light package. Here are showcases for different light type:
@@ -23,7 +25,7 @@ Textured light:
 ![img](/imgs/textured.png)
 
 
-# Samples
+## Samples
 
 There are two samples in package, you can import them from PackageManager's Sample tab and play around. If no Sample tab appears, you can also copy Realtime Area Light/Samples~ folder to Assets.
 
@@ -37,7 +39,7 @@ It demonstrates how to customize a hand written shader to make it receives LTC l
 
 The interesting part is the lazer beam simulated by a linear light combined with physics raycasting, which rotates around in play mode, and it will be occluded by obstacles. Linear lights are well suited for effects like light saber, laser scope.
 
-# Basic Usage
+## Basic Usage
 
 In order to usage LTC lights, there must exist one and only one LTCLightManager instance in scene. You can use the Prefabs/LTCManager.prefab directly.
 
@@ -75,7 +77,7 @@ That's all!
 
 The last step is adding LTC light instances in your scene.
 
-# LTC Lights
+## LTC Lights
 
 Currently we support polygon light, linear light and textured area light. More types will be added in the future such as bezier curve shaped area lights.
 
