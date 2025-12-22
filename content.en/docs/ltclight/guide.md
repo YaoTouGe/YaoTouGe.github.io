@@ -4,6 +4,8 @@ date: 2025-09-10 11:01:47
 tags:
 - LTC
 draft: false
+aliases:
+- /posts/ltc_area_light/
 ---
 
 # User Guide
