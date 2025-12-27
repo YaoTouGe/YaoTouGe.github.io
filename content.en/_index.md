@@ -8,7 +8,7 @@ aliases:
 <div class="book-hero">
 
 # PetaBytes {anchor=false}
-Our goal is to develop more intuitive tools for crafting vibrant, innovative effects
+Our goal is to develop more intuitive tools for crafting vibrant, innovative effects.
 
 Turning the impossible into possible.
 

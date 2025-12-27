@@ -6,28 +6,29 @@ layout: landing
 <div class="book-hero">
 
 # PetaBytes {anchor=false}
-Our goal is to develop more intuitive tools for crafting vibrant, innovative effects
 
-Turning the impossible into possible.
+我们的目标是开发更加直观易用的工具，来帮助您实现生动富有创意的效果。
+
+变不可能为可能。
 
 {{<button href="https://assetstore.unity.com/zh-CN/publishers/119644">}}AssetStore{{</button>}}
 
 </div>
 
-# Real Time Area Lights
+# 实时面光源
 {{% columns %}}
 - {{< card image="/imgs/polygon.png" >}}
-  ## Polygon Light
+  ## 多边形光源
   {{< /card >}}
 
 - {{< card image="/imgs/textured.png" >}}
-  ## Textured Light
+  ## 纹理面光源
   {{< /card >}}
 
 - {{< card image="/imgs/linear.png" >}}
-  ## Tube Light
+  ## 线状光源
   {{< /card >}}
 {{% /columns %}}
 
-Contact us:
+联系我们:
 *nerowangdmc@foxmail.com*
