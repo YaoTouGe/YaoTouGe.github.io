@@ -8,6 +8,10 @@ baseURL = 'http://yaotouge.github.io'
 title = 'PetaBytes'
 theme = 'hugo-book'
 
+# (Optional) If you provide a Disqus shortname, comments will be enabled on
+# all pages.
+disqusShortname = "yaotouge"
+
 # Book configuration
 disablePathToLower = true
 enableGitInfo = true
@@ -45,7 +49,7 @@ enableGitInfo = true
 
 [[menu.home]]
   name = 'Real Time Area Lights'
-  pageRef = '/docs/ltclight/guide.md'
+  pageRef = '/docs/ltclight'
   weight = 20
   parent = 'Product Documentation'
 
