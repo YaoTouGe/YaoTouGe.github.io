@@ -49,7 +49,7 @@ enableGitInfo = true
 
 [[menu.home]]
   name = 'Real Time Area Lights'
-  pageRef = '/docs/ltclight/guide.md'
+  pageRef = '/docs/ltclight'
   weight = 20
   parent = 'Product Documentation'
 
