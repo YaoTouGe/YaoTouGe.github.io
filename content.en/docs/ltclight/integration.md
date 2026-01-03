@@ -15,22 +15,26 @@ The integration process is extreamely easy for both shader graph and shader code
    
     In order to use LTC lights, there must exist one and only one LTCLightManager instance in scene. Create an empty game object, and add LTCLightManger component to it. 
     
-    {{< image src="placeholder.svg" alt="A placeholder" title="A placeholder" loading="lazy" >}}
+    {{< image src="/imgs/LTCLightManager.png" alt="LTCLightManager" title="LTCLightManager" loading="lazy" >}}
     
-    Or you can use the Prefabs/LTCManager.prefab directly.
+    The PrefilterTexture shader is located in
     
-    {{< image src="placeholder.svg" alt="A placeholder" title="A placeholder" loading="lazy" >}}
+    `Real Time Area Lights/Shaders/PrefilterTexture.shader`. It is used for Textured Light, and should be assigned to LTCLightManager.
+    
+    Or you can use the Prefabs/LTCManager.prefab directly without additional setup.
+    
+    {{< image src="/imgs/LTCLightManager_prefab.png" alt="LTCLightManager Prefab" title="LTCLightManager Prefab" loading="lazy" >}}
 
 2. ### Shader Modification
     
-    Then you need to make materials receiving LTC lighting with minor shader modification.
+    In the next step, minor shader modification is needed to make materials receiving LTC lighting with.
 
     #### For Shader Graph
-    There is no way for us to intercept the lighting process of Fragment block, but we can just add our additional LTC lighting to the emission channel, which will be added to the final lighting result. 
+    There is no way for us to intercept the lighting process of fragment block, but we can connect our additional lighting to the emission channel, which will be added to the final lighting result. 
 
     {{< image src="/imgs/shadergraph_sample.png" alt="shadergraphsample" title="shadergraphsample" loading="lazy" >}}
 
-    So what we need is add a LTCLighting node (inclued in this package) in shader graph, add input channels which is almost identical with Fragment block, and link output to Fragment block's emission. You can just refer to the ShaderGraph sample.
+    So you need to create a LTCLighting node (inclued in this package) in shader graph, get input channels which is almost identical with fragment block, and link output to fragment block's emission. [Refer to the ShaderGraph sample](/docs/ltclight/sample#shader-graph-sample).
 
     #### For Shader Code
 
@@ -42,7 +46,7 @@ The integration process is extreamely easy for both shader graph and shader code
     #include "Packages/com.petabytes.ltclight/Shaders/LTC_URP.hlsl"
     ```
 
-    Then add LTC lighting after URP's pbr calculation:
+    Then add LTC lighting after URP's PBR calculation:
 
     ``` cpp
     // For example in LitForwardPass.hlsl
@@ -53,12 +57,19 @@ The integration process is extreamely easy for both shader graph and shader code
     color.rgb += CalculateFragmentLTC(inputData, surfaceData);
     ```
 
+    [Refer to the shader code sample](/docs/ltclight/sample#shader-code-sample).
+
 
 3. ### Add LTC Light Components
 
     The last step is adding LTC light instances in your scene.
 That's all!
 {{% /steps %}}
+
+> [!NOTE]
+> ### Customized Render Pipeline
+> For customized render pipeline, you need to provide the same data as URP's inputData and surfaceData.
+> Then modify your shader the similar way as [For Shader Code](#for-shader-code).
 
 
 ### Specular and Metallic Workflow
@@ -70,7 +81,7 @@ You may use specular or metallic workflow in asset authoring, this package adapt
 
 If you are integrating into URP shadergraph, connect to the corresponding input channel according to your workflow:
 
-{{< image src="/imgs/shadergraph_spec_metallic.png" alt="specular metallic workflow" title="specular metallic workflow" loading="lazy" >}}
+{{< image src="/imgs/shadergraph_workflow.png" alt="specular metallic workflow" title="specular metallic workflow" loading="lazy" >}}
 
 {{% /tab %}}
 {{% tab "URP Shader Code" %}}
@@ -80,7 +91,7 @@ If you are integrating to URP shader code, the URP shader has already taken this
 {{% /tab %}}
 {{%tab "Customized Render Pipeline"%}}
 
-For customized render pipeline, you should do the conversion from metallic to specular when offering surface parameters to LTC calculate function, take URP as a reference:
+For customized render pipeline, you should do the conversion between metallic and specular when offering surface data to LTC calculate function, take URP `InitializeBRDFData` as a reference.
 
 {{%/tab%}}
 {{< /tabs >}}
