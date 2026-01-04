@@ -3,14 +3,26 @@ title: 示例
 weight: 1
 ---
 
-## 示例项目
-该资源包包含两个示例项目，你可在 PackageManager（资源包管理器）的「Samples（示例）」标签页中导入查看，若没有 Samples 标签页，也可以直接从 package 目录下的 Samples~ 拷贝到 Assets 中。
+## 示例
+该资源包内包含两个示例，你可以在包管理器的示例标签页中导入并体验。
+
+{{<image src="/imgs/package_sample_tab.png" title="示例标签页" alt="示例标签页" loading="lazy">}}
+
+若未显示示例标签页，你也可以将 Realtime Area Light/Samples~ 文件夹复制到资源目录下。
+
+{{<image src="/imgs/package_sample_directory.png" title="示例目录" alt="示例目录" loading="lazy">}}
 
 ### Shader Graph 示例
-此示例展示如何自定义 Shader Graph，使其能够接收 LTC 光照。  
-进入Play模式后，场景会在随机位置随机生成多边形光源或线光源；同时还有一个顶点不断变化的多边形光源，演示如何在运行时设置多边形光源的形状。
+
+本示例展示了如何自定义Shader Graph，使其支持 LTC 光照。
+
+进入 Play 模式后，光源生成器会在随机位置随机生成多边形光源或线性光源；同时场景中还存在一个顶点实时变化的多边形光源，以此演示如何在运行时设置多边形光源的形状。
+
+{{<image src="/imgs/shadergraph_demo.png" title="着色器图演示" alt="着色器图演示" loading="lazy">}}
 
 ### Shader 代码示例
-此示例展示如何通过手写代码自定义着色器，使其能够接收 LTC 光照。  
-其中一个有趣的样例：结合物理射线检测，用线性光源模拟激光束。运行时激光束会旋转，且会被障碍物遮挡。线性光源非常适合制作光剑、激光瞄准镜等效果。
+本示例展示了如何自定义手写着色器，使其支持 LTC 光照。
 
+其中的亮点功能，是通过线性光源结合物理射线检测模拟实现的激光束效果。Play 模式下，激光束会进行旋转，并被障碍物遮挡截断。
+
+{{<image src="/imgs/shadercode_demo.png" title="着色器代码演示" alt="着色器代码演示" loading="lazy">}}
