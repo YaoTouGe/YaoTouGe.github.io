@@ -24,8 +24,8 @@ const pages = [
   "/zh/docs/ltclight/light_types/textured_light/",
   "/zh/docs/ltclight/light_types/linear_light/",
   "/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css",
-  "/zh.search-data.min.fdabb4b1dd707a7cfb115f5328617c9832c187d804a676220bb08bb9639e0de9.json",
-  "/zh.search.min.e7e82291e8243de87c314f88f9269e6ef2237a599305d886775c57213c3cdf4d.js",
+  "/zh.search-data.min.ff21ece292b9d9bf3aeac70c79a15b7947f17247378e1c4b822b7b5dc267eca3.json",
+  "/zh.search.min.5ecc1f58012580b347d166211556c3ca3d71c3ca8fe2ad54c9a03c1cddfdfafe.js",
   
 ];
 
