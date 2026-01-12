@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LTC Real Time Area Lights on PetaBytes</title><link>http://yaotouge.github.io/docs/ltclight/</link><description>Recent content in LTC Real Time Area Lights on PetaBytes</description><generator>Hugo</generator><language>en</language><atom:link href="http://yaotouge.github.io/docs/ltclight/index.xml" rel="self" type="application/rss+xml"/><item><title>Samples</title><link>http://yaotouge.github.io/docs/ltclight/sample/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/docs/ltclight/sample/</guid><description>&lt;h2 id="samples"&gt;Samples&lt;a class="anchor" href="#samples"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;There are two samples in package, you can import them from PackageManager&amp;rsquo;s Samples tab and play around.&lt;/p&gt;
-&lt;label class="book-image" for="book-image-toggle-0"&gt;
+&lt;blockquote class='book-hint note'&gt;
+&lt;p&gt;It seems that the &lt;code&gt;Samples&lt;/code&gt; tab is only visible if the package is imported from disk. If it is downloaded from asset store directly, there will not be Samples tab.&lt;/p&gt;&lt;/blockquote&gt;&lt;label class="book-image" for="book-image-toggle-0"&gt;
  &lt;input class="hidden toggle" type="checkbox" id="book-image-toggle-0" /&gt;
  &lt;img src="http://yaotouge.github.io/imgs/package_sample_tab.png" alt="Sample Tab"loading="lazy"title="Sample Tab" /&gt;
 &lt;/label&gt;
-&lt;p&gt;If no Samples tab appears, you can also copy Realtime Area Light/Samples~ folder to Assets.&lt;/p&gt;
-&lt;label class="book-image" for="book-image-toggle-1"&gt;
- &lt;input class="hidden toggle" type="checkbox" id="book-image-toggle-1" /&gt;
- &lt;img src="http://yaotouge.github.io/imgs/package_sample_directory.png" alt="Sample Dir"loading="lazy"title="Sample Dir" /&gt;
-&lt;/label&gt;
-&lt;h3 id="shader-graph-sample"&gt;Shader Graph Sample&lt;a class="anchor" href="#shader-graph-sample"&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;It demonstrates how to customize a shader graph to make it receives LTC lighting.&lt;/p&gt;
-&lt;p&gt;When enter play mode, the light spawner will spawn polygon lights or linear lights randomly at random place, and there is also a polygon light whose polygon vertices is changing, shows how to set polygon light shapes at runtime.&lt;/p&gt;</description></item><item><title>Integration</title><link>http://yaotouge.github.io/docs/ltclight/integration/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/docs/ltclight/integration/</guid><description>&lt;h2 id="integration"&gt;Integration&lt;a class="anchor" href="#integration"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;If no Samples tab appears, you can also copy &lt;code&gt;Realtime Area Lights/Samples~&lt;/code&gt; folder to Assets.&lt;/p&gt;</description></item><item><title>Integration</title><link>http://yaotouge.github.io/docs/ltclight/integration/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/docs/ltclight/integration/</guid><description>&lt;h2 id="integration"&gt;Integration&lt;a class="anchor" href="#integration"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The integration process is extreamely easy for both shader graph and shader code, no matter you are using an customized SRP render pipeline, or the offical Universal Render Pipeline.&lt;/p&gt;
 &lt;blockquote class='book-hint note'&gt;
 &lt;p&gt;This package works in isolation with render pipeline in most of the time, it extract surface parameters like roughtness, normal, metallic and so on from the render pipeline, do lighting calculation, then add the result back to the original render result.&lt;/p&gt;</description></item></channel></rss>

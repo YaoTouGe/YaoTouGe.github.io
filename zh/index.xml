@@ -36,14 +36,15 @@
 计算公式：&lt;/p&gt;
 &lt;span class="book-katex"&gt;\( \vec {f}=\vec {oa} \times \vec {ob} \)&lt;/span&gt;&lt;/blockquote&gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;Preset（预设形状）&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>示例</title><link>http://yaotouge.github.io/zh/docs/ltclight/sample/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/zh/docs/ltclight/sample/</guid><description>&lt;h2 id="示例"&gt;示例&lt;a class="anchor" href="#%e7%a4%ba%e4%be%8b"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;该资源包内包含两个示例，你可以在包管理器的示例标签页中导入并体验。&lt;/p&gt;
-&lt;label class="book-image" for="book-image-toggle-0"&gt;
+&lt;blockquote class='book-hint note'&gt;
+&lt;p&gt;Samples 标签似乎只有是 import from disk 导入的 package 才会显示，对于直接从 Asset Store 下载的 package 没有这个标签。&lt;/p&gt;&lt;/blockquote&gt;&lt;label class="book-image" for="book-image-toggle-0"&gt;
  &lt;input class="hidden toggle" type="checkbox" id="book-image-toggle-0" /&gt;
  &lt;img src="http://yaotouge.github.io/imgs/package_sample_tab.png" alt="示例标签页"loading="lazy"title="示例标签页" /&gt;
 &lt;/label&gt;
-&lt;p&gt;若未显示示例标签页，你也可以将 Realtime Area Light/Samples~ 文件夹复制到资源目录下。&lt;/p&gt;
+&lt;p&gt;若未显示示例标签页，你也可以将 &lt;code&gt;Realtime Area Lights/Samples~&lt;/code&gt; 文件夹复制到 Assets 目录下。&lt;/p&gt;
 &lt;label class="book-image" for="book-image-toggle-1"&gt;
  &lt;input class="hidden toggle" type="checkbox" id="book-image-toggle-1" /&gt;
- &lt;img src="http://yaotouge.github.io/imgs/package_sample_directory.png" alt="示例目录"loading="lazy"title="示例目录" /&gt;
+ &lt;img src="http://yaotouge.github.io/imgs/samples_dir.png" alt="示例目录"loading="lazy"title="示例目录" /&gt;
 &lt;/label&gt;
 &lt;h3 id="shader-graph-示例"&gt;Shader Graph 示例&lt;a class="anchor" href="#shader-graph-%e7%a4%ba%e4%be%8b"&gt;#&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;本示例展示了如何自定义Shader Graph，使其支持 LTC 光照。&lt;/p&gt;
