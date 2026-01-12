@@ -6,11 +6,14 @@ weight: 1
 ## 示例
 该资源包内包含两个示例，你可以在包管理器的示例标签页中导入并体验。
 
+> [!NOTE]
+> Samples 标签似乎只有是 import from disk 导入的 package 才会显示，对于直接从 Asset Store 下载的 package 没有这个标签。
+
 {{<image src="/imgs/package_sample_tab.png" title="示例标签页" alt="示例标签页" loading="lazy">}}
 
-若未显示示例标签页，你也可以将 Realtime Area Light/Samples~ 文件夹复制到资源目录下。
+若未显示示例标签页，你也可以将 `Realtime Area Lights/Samples~` 文件夹复制到 Assets 目录下。
 
-{{<image src="/imgs/package_sample_directory.png" title="示例目录" alt="示例目录" loading="lazy">}}
+{{<image src="/imgs/samples_dir.png" title="示例目录" alt="示例目录" loading="lazy">}}
 
 ### Shader Graph 示例
 

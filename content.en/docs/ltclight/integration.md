@@ -63,7 +63,24 @@ The integration process is extreamely easy for both shader graph and shader code
 3. ### Add LTC Light Components
 
     The last step is adding LTC light instances in your scene.
-That's all!
+
+    You can create an empty GameObject, and add LTC components to it, there three types of lights can be used directly:
+
+    [LTC Linear Light](/docs/ltclight/light_types/linear_light) 
+
+    [LTC Polygon Light]((/docs/ltclight/light_types/polygon_light))
+    
+    [LTC Textured Light]((/docs/ltclight/light_types/textured_light)):
+
+    > [!CAUTION]
+    > `LTC Light` is the base class of above three light types, it can't be used directly.
+
+    {{<image src="/imgs/ltc_add_components.png" title="Add LTC Components">}}
+
+    Or use the light prefabs in `Real Time Area Lights/Prefabs` directory:
+
+    {{<image src="/imgs/prefabs_dir.png" title="Prefabs Directory">}}
+
 {{% /steps %}}
 
 > [!NOTE]

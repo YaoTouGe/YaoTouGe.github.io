@@ -7,11 +7,14 @@ weight: 1
 
 There are two samples in package, you can import them from PackageManager's Samples tab and play around. 
 
+> [!NOTE]
+> It seems that the `Samples` tab is only visible if the package is imported from disk. If it is downloaded from asset store directly, there will not be Samples tab.
+
 {{<image src="/imgs/package_sample_tab.png" title="Sample Tab" alt="Sample Tab" loading="lazy">}}
 
-If no Samples tab appears, you can also copy Realtime Area Light/Samples~ folder to Assets.
+If no Samples tab appears, you can also copy `Realtime Area Lights/Samples~` folder to Assets.
 
-{{<image src="/imgs/package_sample_directory.png" title="Sample Dir" alt="Sample Dir" loading="lazy">}}
+{{<image src="/imgs/samples_dir.png" title="Sample Dir" alt="Sample Dir" loading="lazy">}}
 
 ### Shader Graph Sample
 It demonstrates how to customize a shader graph to make it receives LTC lighting.

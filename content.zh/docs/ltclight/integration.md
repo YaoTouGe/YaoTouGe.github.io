@@ -64,6 +64,23 @@ weight: 2
 
     最后一步，在场景中创建所需的 LTC 光源即可。
 
+    你可以创建一个空的 GameObject，然后在上面添加 LTC 光源组件，有三种组件可以添加：
+
+    [LTC Linear Light](/docs/ltclight/light_types/linear_light) 
+
+    [LTC Polygon Light]((/docs/ltclight/light_types/polygon_light))
+    
+    [LTC Textured Light]((/docs/ltclight/light_types/textured_light)):
+
+    > [!CAUTION]
+    > `LTC Light` 是上面三种组件的基类，无法直接使用。
+
+    {{<image src="/imgs/ltc_add_components.png" title="Add LTC Components">}}
+
+    或者你也可以直接使用 `Real Time Area Lights/Prefabs` 路径中的 prefab:
+
+    {{<image src="/imgs/prefabs_dir.png" title="Prefabs Directory">}}
+
 {{% /steps %}}
 
 > [!NOTE]
