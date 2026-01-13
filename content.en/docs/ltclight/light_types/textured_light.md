@@ -42,6 +42,9 @@ If true, the texture prefiltering process will be executed each frame, which bri
 
 The texture of this light, it can be a static Texture2D, or runtime generated RenderTexture.
 
+> [!NOTE]
+> If texture is none, textured light will use default white texture, behaves like rectangular polygon light. You can still adjust color of it.
+
 **`Width`**
 
 The width of textured light.
@@ -49,3 +52,15 @@ The width of textured light.
 **`Height`**
 
 The height of textured light.
+
+**`Barn Door`**
+
+There is a special attribute for textured light named barn door, it controls the barn door around textured light and affect how much area it can lit.
+
+{{<image src="/imgs/barn_door_textured0.png" title="Barn Door Angle 0">}}
+
+{{<image src="/imgs/barn_door_textured60.png" title="Barn Door Angle 60">}}
+
+`Barn Door Length` is how long the barn door is. The longer it is, more light will be occluded.
+
+`Barn Door Angle` is angle of barn door. it ranges from 0 to 90.

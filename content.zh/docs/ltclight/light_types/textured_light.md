@@ -42,6 +42,9 @@ title: 纹理面光源
 
 指定当前纹理光源所使用的纹理，既可以是静态的 Texture2D 纹理资源，也可以是运行时动态生成的 RenderTexture 渲染纹理。
 
+> [!NOTE]
+> 如果 Texture 设置为 None，纹理光源会使用默认的 white texture，表现与矩形面光源一致。你仍然可以调整它的颜色。
+
 **`Width（宽度）`**
 
 纹理光源的物理宽度。
@@ -49,3 +52,15 @@ title: 纹理面光源
 **`Height（高度）`**
 
 纹理光源的物理高度。
+
+**`Barn Door`**
+
+纹理光源有一个特殊的挡光板属性，它控制光源周围的一圈挡光板，影响光源的照明区域大小。
+
+{{<image src="/imgs/barn_door_textured0.png" title="Barn Door Angle 0">}}
+
+{{<image src="/imgs/barn_door_textured60.png" title="Barn Door Angle 60">}}
+
+`Barn Door Length` 是挡光板的长度，长度越长遮挡的光照越多。
+
+`Barn Door Angle` 是挡光板的角度，范围在0 到 90度。
