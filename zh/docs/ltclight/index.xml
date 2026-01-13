@@ -55,4 +55,22 @@
 &lt;p&gt;操作方法：在 Shader Graph 中创建一个 LTCLighting 节点（该节点已包含在本工具集中），为其接入与Fragment block 几乎完全一致的输入，最后将节点输出连接 Fragment Block 的自发光端口。 &lt;a href="http://yaotouge.github.io/zh/docs/ltclight/sample/#shader-graph-%e7%a4%ba%e4%be%8b"&gt;参考 ShaderGraph 示例&lt;/a&gt;.&lt;/p&gt;
 &lt;h4 id="shader-代码"&gt;Shader 代码&lt;a class="anchor" href="#shader-%e4%bb%a3%e7%a0%81"&gt;#&lt;/a&gt;&lt;/h4&gt;
 &lt;p&gt;对于手写的着色器，扩展 LTC 光照支持同样便捷。工具集已提供辅助函数，可将 URP 标准光照着色器的输入参数转换为 LTC 光照所需的格式 —— 实际上二者的参数结构基本一致。&lt;/p&gt;
-&lt;p&gt;以 URP 标准光照着色器为例，首先在LitForwardPass.hlsl文件中引入 LTC 着色器头文件：&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;以 URP 标准光照着色器为例，首先在LitForwardPass.hlsl文件中引入 LTC 着色器头文件：&lt;/p&gt;</description></item><item><title>全局配置</title><link>http://yaotouge.github.io/zh/docs/ltclight/global_config/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/zh/docs/ltclight/global_config/</guid><description>&lt;h2 id="全局配置"&gt;全局配置&lt;a class="anchor" href="#%e5%85%a8%e5%b1%80%e9%85%8d%e7%bd%ae"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;在这个package 导入后，它会自动创建一个全局的配置文件 &lt;code&gt;Assets/RealTimeAreaLights/ltcconfig.asset&lt;/code&gt;, 以及一个 hlsl 的头文件 &lt;code&gt;ltcconfig.hlsl&lt;/code&gt;.&lt;/p&gt;
+&lt;label class="book-image" for="book-image-toggle-0"&gt;
+ &lt;input class="hidden toggle" type="checkbox" id="book-image-toggle-0" /&gt;
+ &lt;img src="http://yaotouge.github.io/imgs/ltcconfig_dir.png" title="config asset path" /&gt;
+&lt;/label&gt;
+&lt;p&gt;ltcconfig.asset 上有一些选项用于打开关闭部分功能或者效果。&lt;/p&gt;
+&lt;label class="book-image" for="book-image-toggle-1"&gt;
+ &lt;input class="hidden toggle" type="checkbox" id="book-image-toggle-1" /&gt;
+ &lt;img src="http://yaotouge.github.io/imgs/ltcconfig_inspector.png" title="config asset options" /&gt;
+&lt;/label&gt;
+&lt;p&gt;&lt;code&gt;ltcconfig.hlsl&lt;/code&gt; 是根据 ltcconfig.asset 的选项自动生成的, 要确保点击 &lt;code&gt;Regenerate Config HLSL&lt;/code&gt; 按钮来使得配置选项的修改生效。&lt;/p&gt;
+&lt;blockquote class='book-hint caution'&gt;
+&lt;p&gt;&lt;code&gt;ltcconfig.hlsl&lt;/code&gt; 被本资源包的 shader 所引用，不要移除或者改变它的路径，否则会导致 shader 编译错误。&lt;/p&gt;&lt;/blockquote&gt;&lt;h3 id="enable-polygonlineartextured-light"&gt;Enable Polygon/Linear/Textured Light&lt;a class="anchor" href="#enable-polygonlineartextured-light"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;如果在你的场景中从未使用某些光源类型，你可以把它们关掉，这样一部分 shader 代码会被宏定义所屏蔽。通过这个方式可以尽量减少 shader 的指令数量，有助于提升 GP U的性能。&lt;/p&gt;
+&lt;h3 id="textured-flip-horizontal"&gt;Textured Flip Horizontal&lt;a class="anchor" href="#textured-flip-horizontal"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;这个选项会在水平方向翻转纹理光源的效果，如果你发现纹理光源的反射和对应的贴图矩形相反，可以调整这个选项。&lt;/p&gt;
+&lt;h3 id="use-perceptual-roughness"&gt;Use Perceptual Roughness&lt;a class="anchor" href="#use-perceptual-roughness"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;影响粗糙度的计算，perceptual roughness 等于 roughness 的平方，它比 roughness 变化更快，根据你的习惯选择使用哪种粗糙度计算。&lt;/p&gt;</description></item></channel></rss>

@@ -8,4 +8,17 @@
 &lt;p&gt;If no Samples tab appears, you can also copy &lt;code&gt;Realtime Area Lights/Samples~&lt;/code&gt; folder to Assets.&lt;/p&gt;</description></item><item><title>Integration</title><link>http://yaotouge.github.io/docs/ltclight/integration/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/docs/ltclight/integration/</guid><description>&lt;h2 id="integration"&gt;Integration&lt;a class="anchor" href="#integration"&gt;#&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The integration process is extreamely easy for both shader graph and shader code, no matter you are using an customized SRP render pipeline, or the offical Universal Render Pipeline.&lt;/p&gt;
 &lt;blockquote class='book-hint note'&gt;
-&lt;p&gt;This package works in isolation with render pipeline in most of the time, it extract surface parameters like roughtness, normal, metallic and so on from the render pipeline, do lighting calculation, then add the result back to the original render result.&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;This package works in isolation with render pipeline in most of the time, it extract surface parameters like roughtness, normal, metallic and so on from the render pipeline, do lighting calculation, then add the result back to the original render result.&lt;/p&gt;</description></item><item><title>Global Configuration</title><link>http://yaotouge.github.io/docs/ltclight/global_config/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://yaotouge.github.io/docs/ltclight/global_config/</guid><description>&lt;h2 id="global-configuration"&gt;Global Configuration&lt;a class="anchor" href="#global-configuration"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;After this package is imported, a configuration asset will be created automatically at &lt;code&gt;Assets/RealTimeAreaLights/ltcconfig.asset&lt;/code&gt;, and a hlsl header file named &lt;code&gt;ltcconfig.hlsl&lt;/code&gt;.&lt;/p&gt;
+&lt;label class="book-image" for="book-image-toggle-0"&gt;
+ &lt;input class="hidden toggle" type="checkbox" id="book-image-toggle-0" /&gt;
+ &lt;img src="http://yaotouge.github.io/imgs/ltcconfig_dir.png" title="config asset path" /&gt;
+&lt;/label&gt;
+&lt;p&gt;There are some options on ltcconfig.asset to let you turn on/off the functionality or effects.&lt;/p&gt;
+&lt;label class="book-image" for="book-image-toggle-1"&gt;
+ &lt;input class="hidden toggle" type="checkbox" id="book-image-toggle-1" /&gt;
+ &lt;img src="http://yaotouge.github.io/imgs/ltcconfig_inspector.png" title="config asset options" /&gt;
+&lt;/label&gt;
+&lt;p&gt;&lt;code&gt;ltcconfig.hlsl&lt;/code&gt; is generated according to ltcconfig.asset options, make sure click the &lt;code&gt;Regenerate Config HLSL&lt;/code&gt; button after you change options.&lt;/p&gt;
+&lt;blockquote class='book-hint caution'&gt;
+&lt;p&gt;&lt;code&gt;ltcconfig.hlsl&lt;/code&gt; is included by shader of this package, don&amp;rsquo;t remove it or change its directory. Otherwise shader may compile failed.&lt;/p&gt;</description></item></channel></rss>
