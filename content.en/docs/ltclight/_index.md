@@ -9,6 +9,8 @@ aliases:
 
 [WebGL demo](https://yaotouge.github.io/imgs/LTCDemo/WebGLBuild/index.html).
 
+[Video tutorial](https://www.youtube.com/watch?v=oFB4uncHZ5c).
+
 This document will guide you through the usage of **Real Time Area Lights** package. This package extends Unity's lighting system with area light support. Here are showcases for different light type:
 
 Polygon light:

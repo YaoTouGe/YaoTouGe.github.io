@@ -9,6 +9,8 @@ aliases:
 
 [WebGL demo](https://yaotouge.github.io/imgs/LTCDemo/WebGLBuild/index.html).
 
+[视频教程](https://www.bilibili.com/video/BV1cy6JBxEdm/?share_source=copy_web&vd_source=8103817876f93578b971b7a788e94647).
+
 本文档将指导你使用**实时面光源**插件包。该插件包扩展了 Unity 的光照系统，使其支持面光源功能。以下是不同光源类型的效果展示：
 
 多边形光源：
